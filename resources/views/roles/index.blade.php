@@ -25,7 +25,7 @@
                     <div class="row">
                         @foreach ($roles as $role)
                             <div class="col-4">
-                                <h6>{{ $role->title }}</h6>
+                                <h4>{{ $role->title }}</h4>
                                 <div class="d-flex flex-column gap-2 pt-3">
                                     @php
                                         $assigned_permissions = $role->permissions
@@ -36,13 +36,13 @@
 
                                     @foreach ($permissions as $permission)
                                         <div class="form-check form-check-radio">
-                                            <input type="checkbox" id="{{ $role->slug }}-{{ $permission->id }}"
+                                            <input type="checkbox" id="{{ $role->id }}-{{ $permission->id }}"
                                                 class="form-check-input" @if (in_array($permission->id, $assigned_permissions)) checked @endif
                                                 onchange="ajaxCall('{{ route(get_current_user_role() . '.store.permissions', [$role->id, $permission->id]) }}')">
 
                                             <label
                                                 class="form-check-label-checkbox text-capitalize sub-title fw-medium w-100"
-                                                for="{{ $role->slug }}-{{ $permission->id }}">{{ $permission->title }}</label>
+                                                for="{{ $role->id }}-{{ $permission->id }}">{{ $permission->title }}</label>
                                         </div>
                                     @endforeach
                                 </div>

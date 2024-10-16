@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $page_data = User::paginate(10);
+        $page_data = User::get();
         return view('users.index', $page_data);
     }
 
@@ -48,7 +48,8 @@ class UserController extends Controller
 
     public function edit(Request $request, $id)
     {
-        $data['user'] = User::where('id', $id)->first();
+        $data['user']  = User::where('id', $id)->first();
+        $data['roles'] = Role::get();
         return view('users.edit', $data);
     }
 

@@ -127,22 +127,19 @@
                                     <th scope="col">#</th>
                                     <th scope="col">{{ get_phrase('Title') }}</th>
                                     <th scope="col">{{ get_phrase('Code') }}</th>
-                                    <th scope="col">{{ get_phrase('Description') }}</th>
                                     <th scope="col">{{ get_phrase('Client') }}</th>
                                     <th scope="col">{{ get_phrase('Staffs') }}</th>
                                     <th scope="col">{{ get_phrase('Budget') }}</th>
-                                    <th scope="col">{{ get_phrase('Progress status') }}</th>
+                                    <th scope="col">{{ get_phrase('Progress') }}</th>
                                     <th scope="col">{{ get_phrase('Status') }}</th>
-                                    <th scope="col">{{ get_phrase('Note') }}</th>
-                                    <th scope="col">{{ get_phrase('Privacy') }}</th>
                                     <th scope="col" class="print-d-none">{{ get_phrase('Options') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($projects as $key => $project)
                                     <tr data-id="{{ $project->id }}" class="context-menu">
-                                        <td>
-                                            <input type="checkbox" class="checkbox-item">
+                                        <td style="padding: 18px;">
+                                            <input type="checkbox" class="checkbox-item pl-15">
                                         </td>
                                         <th scope="row">
                                             <p class="row-number">{{ ++$key }}</p>
@@ -158,13 +155,6 @@
                                             <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                                 <div class="dAdmin_profile_name">
                                                     <h4 class="title fs-14px">{{ $project->code }}</h4>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                                <div class="dAdmin_profile_name">
-                                                    <h4 class="title fs-14px">{{ $project->description }}</h4>
                                                 </div>
                                             </div>
                                         </td>
@@ -190,30 +180,26 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                                <div class="dAdmin_profile_name">
-                                                    <h4 class="title fs-14px">{{ $project->progress_status }}</h4>
+                                            <div class="dAdmin_profile d-block align-items-center min-w-200px">
+                                                <span class="p-2">{{ $project->progress }}%</span>
+                                                <div class="progress ms-2" style="width: 100px; height: 3px">
+                                                    <div class="progress-bar bg-primary" role="progressbar"
+                                                        style="width: {{ $project->progress }}%; "
+                                                        aria-valuenow="{{ $project->progress }}" aria-valuemin="0"
+                                                        aria-valuemax="100"></div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                                 <div class="dAdmin_profile_name">
-                                                    <h4 class="title fs-14px">{{ $project->status }}</h4>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                                <div class="dAdmin_profile_name">
-                                                    <h4 class="title fs-14px">{{ $project->note }}</h4>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                                <div class="dAdmin_profile_name">
-                                                    <h4 class="title fs-14px">{{ $project->privacy }}</h4>
+                                                    @if ($project->status == 'in_progress')
+                                                        <span class="in_progress ">{{ get_phrase('In Progress') }}</span>
+                                                    @elseif($project->status == 'not_started')
+                                                        <span class="not_started">{{ get_phrase('Not Started') }}</span>
+                                                    @elseif($project->status == 'completed')
+                                                        <span class="completed">{{ get_phrase('Completed') }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                         </td>

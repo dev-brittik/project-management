@@ -20,4 +20,13 @@ class Milestone extends Model
         'timestamp_start',
         'timestamp_end',
     ];
+
+    protected $casts = [
+        'tasks' => 'array',
+    ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 }

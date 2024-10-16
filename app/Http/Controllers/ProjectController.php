@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
+use App\Models\Meeting;
+use App\Models\Milestone;
+use App\Models\Payment;
 use App\Models\Project;
 use App\Models\Role;
+use App\Models\Task;
+use App\Models\Timesheet;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,6 +18,14 @@ use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
+
+    private $code;
+    private $project;
+    public function __construct()
+    {
+        $this->code    = request()->route()->parameter('code');
+        $this->project = Project::where('code', $this->code)->first();
+    }
 
     public function index(Request $request)
     {
@@ -30,7 +44,19 @@ class ProjectController extends Controller
 
     public function show()
     {
-        return view('projects.details');
+        // $tasks          = Milestone::where('id', 1)->value('tasks');
+        // $total_progress = Task::whereIn('id', $tasks)->sum('progress');
+        // $count_tasks    = Task::whereIn('id', $tasks)->count();
+        // dd($total_progress, $count_tasks);
+
+        $page_data['files']      = File::where('project_id', $this->project->id)->get();
+        $page_data['milestones'] = Milestone::where('project_id', $this->project->id)->get();
+        $page_data['timesheets'] = Timesheet::where('project_id', $this->project->id)->get();
+        $page_data['tasks']      = Task::where('project_id', $this->project->id)->get();
+        $page_data['meetings']   = Meeting::where('project_id', $this->project->id)->get();
+        $page_data['payments']   = Payment::where('project_id', $this->project->id)->get();
+
+        return view('projects.details', $page_data);
     }
 
     public function create()
@@ -47,17 +73,16 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'title'           => 'required|string|max:255',
-            'code'            => 'required|string|max:255',
-            'description'     => 'required|string',
-            'category_id'     => 'required|integer',
-            'client_id'       => 'required|integer',
-            'staffs'          => 'required|array',
-            'budget'          => 'required|numeric',
-            'progress_status' => 'required|string|max:255',
-            'status'          => 'required|string|max:255',
-            'note'            => 'required|string',
-            'privacy'         => 'required|string|max:255',
+            'title'       => 'required|string|max:255',
+            'code'        => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|integer',
+            'client_id'   => 'required|integer',
+            'staffs'      => 'required|array',
+            'budget'      => 'required|numeric',
+            'status'      => 'required|string|max:255',
+            'note'        => 'required|string',
+            'privacy'     => 'required|string|max:255',
 
         ]);
 
@@ -74,12 +99,12 @@ class ProjectController extends Controller
         $project['client_id']       = htmlspecialchars($request->client_id);
         $project['staffs']          = json_encode($request->staffs);
         $project['budget']          = htmlspecialchars($request->budget);
-        $project['progress_status'] = htmlspecialchars($request->progress_status);
+        $project['progress']        = htmlspecialchars($request->progress);
         $project['status']          = htmlspecialchars($request->status);
         $project['note']            = htmlspecialchars($request->note);
         $project['privacy']         = htmlspecialchars($request->privacy);
-        $project['timestamp_start'] = date('Y-m-d H:i:s', time());
-        $project['timestamp_end']   = date('Y-m-d H:i:s', time());
+        $project['timestamp_start'] = date('Y-m-d', time());
+        $project['timestamp_end']   = date('Y-m-d', time());
 
         Project::insert($project);
 
@@ -87,9 +112,9 @@ class ProjectController extends Controller
             'success' => 'Product has been stored.',
         ]);
     }
-    public function delete($code)
+    public function delete()
     {
-        Project::where('code', $code)->delete();
+        Project::find($this->project->id)->delete();
         return response()->json([
             'success' => 'Product has been deleted.',
         ]);
@@ -113,10 +138,10 @@ class ProjectController extends Controller
         $project['title']           = htmlspecialchars($request->title);
         $project['description']     = htmlspecialchars($request->description);
         $project['category_id']     = htmlspecialchars($request->category_id);
-        $project['client']          = htmlspecialchars($request->client);
-        $project['staffs']          = json_decode($request->staffs);
+        $project['client_id']       = htmlspecialchars($request->client_id);
+        $project['staffs']          = json_encode($request->staffs);
         $project['budget']          = htmlspecialchars($request->budget);
-        $project['progress_status'] = htmlspecialchars($request->progress_status);
+        $project['progress']        = htmlspecialchars($request->progress);
         $project['status']          = htmlspecialchars($request->status);
         $project['note']            = htmlspecialchars($request->note);
         $project['privacy']         = htmlspecialchars($request->privacy);

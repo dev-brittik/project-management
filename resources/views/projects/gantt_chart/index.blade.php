@@ -46,31 +46,42 @@
             ]);
 
             var options = {
-                height: 500, // Increase height for better visibility
+                height: 500,
                 gantt: {
-                    trackHeight: 40, // Increase track height for better readability
-                    barHeight: 30, // Adjust bar height
-                    criticalPathEnabled: true, // Highlight the critical path
+                    palette: [{
+                            "color": "#42a5f5", // Light blue for task bars
+                            "dark": "#1e88e5", // Dark blue for critical paths
+                            "light": "#bbdefb" // Lighter blue for non-critical tasks
+                        },
+                        {
+                            "color": "#ef5350", // Red for another task group
+                            "dark": "#e53935",
+                            "light": "#ffcdd2"
+                        }
+                    ],
+                    trackHeight: 40,
+                    barHeight: 30,
+                    criticalPathEnabled: true,
                     criticalPathStyle: {
-                        stroke: '#e64a19', // Color of the critical path
-                        strokeWidth: 5 // Thickness of the critical path
+                        stroke: '#ff7043',
+                        strokeWidth: 6 //
                     },
                     arrow: {
-                        angle: 100, // Angle of dependency arrows
+                        angle: 45,
                         width: 2,
-                        color: '#b3b3b3', // Color of dependency arrows
+                        color: '#ff5722',
                         radius: 0
                     },
                     labelStyle: {
                         fontName: 'Arial',
-                        fontSize: 12,
-                        color: '#757575'
+                        fontSize: 13,
+                        color: '#333'
                     }
                 },
-                backgroundColor: '#f9f9f9', // Light background color
+                backgroundColor: '#f0f4f8',
                 hAxis: {
                     textStyle: {
-                        color: '#333', // Darker axis text for better contrast
+                        color: '#333',
                         fontName: 'Arial',
                         fontSize: 12
                     }

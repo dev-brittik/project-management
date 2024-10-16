@@ -438,10 +438,35 @@ span[class="fi-rr-"]:before {
     border-bottom: 1px solid var(--border-color);
 }
 
+.in_progress {
+    background: #fffcf1;
+    color: #f6c000;
+    border: 1px solid #fff6d8;
+    border-radius: 6px;
+    padding: 6px;
+}
+.not_started {
+    background: #ffe1e8;
+    color: #f8285a;
+    border: 1px solid #fff1f4;
+    border-radius: 6px;
+    padding: 6px;
+}
+.completed {
+    background: #d5fde5;
+    color: #17c653;
+    border: 1px solid #ecfdf3;
+    border-radius: 6px;
+    padding: 6px;
+}
+#offcanvas-body {
+    padding: 1px;
+}
+
 /* Title */
 .title {
-    font-weight: 600;
-    color: var(--text-highlight-color);
+    font-weight: 500;
+    color: #212534;
 }
 
 .title2 {
@@ -2165,6 +2190,9 @@ textarea.ol-form-textarea {
     }
 }
 
+.modal {
+    z-index: 1051 !important;
+}
 .ol-modal .modal-content {
     border: none;
     border-radius: 12px;
@@ -2590,10 +2618,30 @@ textarea.ol-form-textarea {
 }
 
 .table.ol-table tbody td {
-    padding: 16px 0;
+    padding: 16px 16px;
     font-weight: 500;
     font-size: 16px;
     color: var(--text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    padding: 0px 8px;
+    margin: 0;
+}
+
+.form-check .form-check-input {
+    float: left;
+    margin-left: -1.5em;
+    border: 1px solid #e4e7f1;
+    border-radius: 4px !important;
+    height: 16px;
+    width: 16px;
 }
 
 .table.ol-table th:last-child,
@@ -4698,9 +4746,16 @@ input.daterangepicker {
     color: var(--white-color);
 }
 
-.icon.icon-confirm {
+.icon-confirm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    width: 50px;
     font-size: 30px;
-    margin: 20px 0px;
+    border-radius: 50%;
+    background: #fff1f4;
+    margin: 0 84px 20px;
 }
 
 @media only screen and (min-width: 993px) {
@@ -5412,3 +5467,112 @@ input.daterangepicker {
 
 /* Login Page Css End ***
 ***********************/
+.fc-button {
+    background-color: transparent !important;
+    border-color: transparent !important;
+    color: #0a1017 !important;
+    text-transform: capitalize !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+}
+.fc-toolbar-chunk {
+    display: flex !important;
+    align-items: center;
+}
+
+.fc .fc-col-header-cell-cushion {
+    display: inline-block;
+    padding: 10px 11px !important;
+}
+
+th .fc-scrollgrid-sync-inner {
+    background-color: #f7f7f9 !important;
+}
+
+td .fc-daygrid-day-frame.fc-scrollgrid-sync-inner {
+    padding: 4px !important;
+}
+
+.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr {
+    display: flex !important;
+    align-items: center !important;
+    background-color: #f7f7f9 !important;
+    border: 1px solid #dbdfeb;
+    border-radius: 6px 0;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+    margin: 0 !important;
+    padding: 20px 0 !important;
+}
+.fc-direction-ltr .fc-daygrid-block-event:not(.fc-event-start),
+.fc-direction-rtl .fc-daygrid-block-event:not(.fc-event-end) {
+    border-bottom-left-radius: 0px;
+    border-left-width: 0px;
+    border-top-left-radius: 0px;
+}
+
+.fc-event-main-frame {
+    display: flex !important;
+    color: #0a1017;
+    flex-direction: column-reverse;
+}
+.fc-h-event .fc-event-title-container {
+    font-weight: 600;
+    font-size: 14px;
+}
+.fc-daygrid-block-event .fc-event-time {
+    font-weight: 500;
+    font-size: 12px;
+}
+
+.fc-button-group {
+    border-radius: 6px !important;
+    border: 1px solid #dfdfeb !important;
+    background-color: #ffffff !important;
+    margin: 0 20px;
+    color: #0a1017;
+    transition: background-color 0.5s ease !important;
+}
+
+.fc-toolbar-title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.fc-button:focus {
+    box-shadow: none !important;
+}
+.fc-button:hover {
+    color: white !important;
+    background-color: #1b84ff !important;
+    padding: 4px 10px;
+    border-radius: 6px !important;
+    border: 1px solid !important;
+}
+
+#chart_div {
+    padding: 0px;
+    background-color: #f9f9f9;
+}
+
+.tasks-box {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    gap: 10px;
+    color: #6b708a; /* Blue text color */
+    border: 1px solid #6b708a; /* Blue border */
+    border-radius: 4px; /* Rounded corners */
+    background-color: #f7f7f9; /* Light gray background */
+}
+
+.tasks-box:hover {
+    display: inline-block;
+    padding: 5px 10px;
+    font-size: 14px;
+    gap: 10px;
+    background-color: #e9ecef;
+    border: 1px solid #1b84ff; /* Blue border */
+    color: #1b84ff;
+}

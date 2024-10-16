@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\File;
 use App\Models\FileUploader;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,14 +15,15 @@ class FileController extends Controller
     public function index(Request $request)
     {
 
-        $page_data['files'] = File::paginate(10);
+        $page_data['files'] = File::get();
+
         return view('projects.file.index', $page_data);
 
     }
     public function create()
     {
-        $page_data['project_id'] = request()->query('id');
-        $page_data['user_id']    = request()->query('id');
+
+        $page_data['project_id'] = Project::where('code', request()->query('code'))->value('id');
         return view('projects.file.create', $page_data);
     }
 
@@ -41,6 +44,7 @@ class FileController extends Controller
         $file = $request->file('file');
 
         $data['project_id'] = htmlspecialchars($request->project_id);
+        $data['user_id']    = Auth::user()->id;
         $data['title']      = htmlspecialchars($request->title);
         $data['extension']  = $file->getClientOriginalExtension();
         $data['size']       = round(($file->getSize() / 1048576), 2);

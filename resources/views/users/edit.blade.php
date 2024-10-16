@@ -5,7 +5,8 @@
     <div class="ol-card-body">
         <div class="row">
             <div class="col-6">
-                <form action="{{ route('admin.user.update', $user->id) }}" method="post" id="ajaxForm">@csrf
+                <form action="{{ route(get_current_user_role() . '.user.update', $user->id) }}" method="post"
+                    id="">@csrf
                     <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="name">{{ get_phrase('Name') }}</label>
                         <input class="form-control ol-form-control" type="text" id="name" name="name"

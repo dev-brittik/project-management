@@ -1,7 +1,3 @@
-{{-- @php
-    $project_meetings = App\Models\Meeting::paginate(10);
-@endphp --}}
-
 <div class="ol-card">
     <div class="ol-card-body">
         <!-- Search and filter -->
@@ -27,7 +23,7 @@
                 </div>
                 <div class="">
                     <a href="#"
-                        onclick="rightCanvas('{{ route(get_current_user_role() . '.meeting.create', ['id' => request()->route()->parameter('id')]) }}', 'Create meeting')"
+                        onclick="rightCanvas('{{ route(get_current_user_role() . '.meeting.create', ['code' => request()->route()->parameter('code')]) }}', 'Create meeting')"
                         class="btn ol-btn-outline-secondary d-flex align-items-center cg-10px">
                         <span class="fi-rr-plus"></span>
                         <span>Add</span>
@@ -113,8 +109,6 @@
                         <th scope="col">#</th>
                         <th scope="col">{{ get_phrase('Title') }}</th>
                         <th scope="col">{{ get_phrase('Time') }}</th>
-                        <th scope="col">{{ get_phrase('DB') }}</th>
-                        <th scope="col">{{ get_phrase('Audience') }}</th>
                         <th scope="col">{{ get_phrase('Join') }}</th>
                         <th scope="col" class="print-d-none">{{ get_phrase('Options') }}</th>
                     </tr>
@@ -122,7 +116,7 @@
                 <tbody>
                     @foreach ($meetings as $key => $meeting)
                         <tr data-id="{{ $meeting->id }}" class="context-menu">
-                            <td>
+                            <td style="padding: 18px;">
                                 <input type="checkbox" class="checkbox-item">
                             </td>
                             <th scope="row">
@@ -138,34 +132,28 @@
                             <td>
                                 <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                     <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ $meeting->time }}</h4>
+                                        <h4 class="title fs-14px">{{ $meeting->timestamp_meeting }}</h4>
                                     </div>
                                 </div>
                             </td>
                             <td>
                                 <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                     <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ $meeting->link }}</h4>
+                                        @if (get_current_user_role() == 'admin')
+                                            <a href="{{ route(get_current_user_role() . '.meeting.join', $meeting->id) }}"
+                                                class="btn btn-primary">
+                                                {{ get_phrase('Start Meeting') }}
+                                            </a>
+                                        @else
+                                            <a href="{{ route(get_current_user_role() . '.meeting.join', $meeting->id) }}"
+                                                class="btn btn-success">
+                                                {{ get_phrase('Join Meeting') }}
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
-                            <td>
-                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                    <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ count($meeting->audience ?? []) }}</h4>
-                                        <h4 class="title fs-14px">
-                                            {{ is_array($meeting->audience) ? count($meeting->audience) : 0 }}</h4>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                    <div class="dAdmin_profile_name">
-                                        <a href="{{ route(get_current_user_role() . '.meeting.join', $meeting->id) }}"
-                                            class="btn btn-success">{{ get_phrase('Join') }}</a>
-                                    </div>
-                                </div>
-                            </td>
+
                             <td class="print-d-none">
                                 <div class="dropdown ol-icon-dropdown ol-icon-dropdown-transparent">
                                     <button class="btn ol-btn-secondary dropdown-toggle" type="button"

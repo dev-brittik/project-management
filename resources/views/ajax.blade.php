@@ -69,6 +69,7 @@
                         if (response) {
                             processServerResponse(response);
                             $('.global.offcanvas').offcanvas('hide');
+                            $('.global.modal').modal('hide');
                         }
                     },
                     error: function(xhr, status, error) {
@@ -77,6 +78,5 @@
                 });
             }
         });
-
     });
 </script>

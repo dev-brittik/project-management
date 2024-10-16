@@ -25,6 +25,10 @@
             localStorage.setItem('navScrollPos', sidebarNavArea.scrollTop);
         });
     });
+
+    $(document).ready(function() {
+        $('.fc .fc-button').removeAttr('disabled');
+    });
 </script>
 
 <script>

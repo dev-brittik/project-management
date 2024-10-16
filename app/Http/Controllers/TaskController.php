@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectTask;
+use App\Models\Milestone;
+use App\Models\Project;
+use App\Models\Role;
 use App\Models\Task;
-use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables;
 
 class TaskController extends Controller
 {
@@ -21,8 +22,10 @@ class TaskController extends Controller
 
     public function create()
     {
-        $page_data['project_id']   = request()->query('id');
-        $page_data['milestone_id'] = request()->query('id');
+        $page_data['project_id'] = Project::where('code', request()->query('code'))->value('id');
+
+        $staffs              = Role::where('title', 'staff')->first();
+        $page_data['staffs'] = User::where('role_id', $staffs->id)->get();
         return view('projects.task.create', $page_data);
     }
 
@@ -40,16 +43,13 @@ class TaskController extends Controller
             ]);
         }
 
-        $data['title']        = htmlspecialchars($request->title);
-        $data['project_id']   = htmlspecialchars($request->project_id);
-        $data['milestone_id'] = htmlspecialchars($request->milestone_id);
-        $data['milestone']    = htmlspecialchars($request->milestone);
-        $data['status']       = htmlspecialchars($request->status);
-        $data['progress']     = htmlspecialchars($request->progress);
-        $data['client']       = htmlspecialchars($request->client);
-        $data['team']         = htmlspecialchars($request->team);
-        $data['start_date']   = strtotime($request->start_date);
-        $data['end_date']     = strtotime($request->end_date);
+        $data['project_id'] = htmlspecialchars($request->project_id);
+        $data['title']      = htmlspecialchars($request->title);
+        $data['status']     = htmlspecialchars($request->status);
+        $data['progress']   = htmlspecialchars($request->progress);
+        $data['team']       = json_encode($request->team);
+        $data['start_date'] = strtotime($request->start_date);
+        $data['end_date']   = strtotime($request->end_date);
 
         Task::insert($data);
         return response()->json([
@@ -60,6 +60,17 @@ class TaskController extends Controller
     public function delete($id)
     {
         Task::where('id', $id)->delete();
+
+        $milestones = Milestone::whereJsonContains('tasks', $id)->get();
+        foreach ($milestones as $milestone) {
+            $tasks = $milestone->tasks;
+            if (($key = array_search($id, $tasks)) !== false) {
+                unset($tasks[$key]);
+                $milestone->tasks = array_values($tasks);
+                $milestone->save();
+            }
+        }
+
         return response()->json([
             'success' => 'Task has been deleted.',
         ]);
@@ -69,17 +80,19 @@ class TaskController extends Controller
     {
 
         $data['task'] = Task::where('id', $id)->first();
+
+        $staffs         = Role::where('title', 'staff')->first();
+        $data['staffs'] = User::where('role_id', $staffs->id)->get();
+
         return view('projects.task.edit', $data);
     }
     public function update(Request $request, $id)
     {
 
         $project['title']      = htmlspecialchars($request->title);
-        $project['milestone']  = htmlspecialchars($request->milestone);
         $project['status']     = htmlspecialchars($request->status);
         $project['progress']   = htmlspecialchars($request->progress);
-        $project['client']     = htmlspecialchars($request->client);
-        $project['team']       = htmlspecialchars($request->team);
+        $project['team']       = json_encode($request->team);
         $project['start_date'] = strtotime($request->start_date);
         $project['end_date']   = strtotime($request->end_date);
         Task::where('id', $request->id)->update($project);

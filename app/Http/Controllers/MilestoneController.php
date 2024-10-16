@@ -3,24 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Milestone;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Yajra\DataTables\DataTables;
 
 class MilestoneController extends Controller
 {
     public function index(Request $request)
     {
-        $page_data = Milestone::paginate(10);
+        $page_data = Milestone::get();
 
         return view('projects.milestone.index', $page_data);
     }
 
     public function create()
     {
-
-        $page_data['project_id'] = request()->query('id');
+        $page_data['project_id'] = Project::where('code', request()->query('code'))->value('id');
         return view('projects.milestone.create', $page_data);
     }
 
@@ -47,8 +46,6 @@ class MilestoneController extends Controller
             'success' => 'Milestone has been stored.',
         ]);
     }
-
-    // Task::whereIn('id', $request->tasks)->update(['milestone_id' => $milestone->id]);
 
     public function delete($id)
     {

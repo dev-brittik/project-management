@@ -1,7 +1,3 @@
-@php
-    $project_tasks = App\Models\Task::paginate(10);
-@endphp
-
 <div class="ol-card">
     <div class="ol-card-body">
         <!-- Search and filter -->
@@ -27,10 +23,10 @@
                 </div>
                 <div class="">
                     <a href="#"
-                        onclick="rightCanvas('{{ route(get_current_user_role() . '.task.create', ['id' => request()->route()->parameter('id')]) }}', 'Create task')"
+                        onclick="rightCanvas('{{ route(get_current_user_role() . '.task.create', ['code' => request()->route()->parameter('code')]) }}', 'Create task')"
                         class="btn ol-btn-outline-secondary d-flex align-items-center cg-10px">
                         <span class="fi-rr-plus"></span>
-                        <span>Add</span>
+                        <span>{{ get_phrase('Add') }}</span>
                     </a>
                 </div>
                 <div class="custom-dropdown dropdown-filter   ">
@@ -111,21 +107,19 @@
                             <input type="checkbox" id="select-all">
                         </th>
                         <th scope="col">#</th>
-                        <th scope="col">{{ 'Title' }}</th>
-                        <th scope="col">{{ get_phrase('Milestone') }}</th>
-                        <th scope="col">{{ get_phrase('Status') }}</th>
-                        <th scope="col">{{ get_phrase('Progress') }}</th>
-                        <th scope="col">{{ get_phrase('Client') }}</th>
+                        <th scope="col">{{ get_phrase('Title') }}</th>
                         <th scope="col">{{ get_phrase('Team') }}</th>
                         <th scope="col">{{ get_phrase('Start Date') }}</th>
                         <th scope="col">{{ get_phrase('End Date') }}</th>
-                        <th scope="col" class="print-d-none">{{ 'Options' }}</th>
+                        <th scope="col">{{ get_phrase('Status') }}</th>
+                        <th scope="col">{{ get_phrase('Progress') }}</th>
+                        <th scope="col" class="print-d-none">{{ get_phrase('Options') }}</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($project_tasks as $key => $task)
+                    @foreach ($tasks as $key => $task)
                         <tr class="context-menu" data-id="{{ $task->id }}">
-                            <td>
+                            <td style="padding: 18px;">
                                 <input type="checkbox" class="checkbox-item">
                             </td>
                             <th scope="row">
@@ -135,34 +129,6 @@
                                 <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                     <div class="dAdmin_profile_name">
                                         <h4 class="title fs-14px">{{ $task->title }}</h4>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                    <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ $task->milestone }}</h4>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                    <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ $task->status }}</h4>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                    <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ $task->progress }}</h4>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                    <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ $task->client }}</h4>
                                     </div>
                                 </div>
                             </td>
@@ -184,6 +150,30 @@
                                 <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                     <div class="dAdmin_profile_name">
                                         <h4 class="title fs-14px">{{ date('d-m-Y', $task->end_date) }}</h4>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
+                                    <div class="dAdmin_profile_name">
+                                        @if ($task->status == 'in_progress')
+                                            <span class="in_progress ">{{ get_phrase('In Progress') }}</span>
+                                        @elseif($task->status == 'not_started')
+                                            <span class="not_started">{{ get_phrase('Not Started') }}</span>
+                                        @elseif($task->status == 'completed')
+                                            <span class="completed">{{ get_phrase('Completed') }}</span>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="dAdmin_profile d-block align-items-center min-w-200px">
+                                    <span class="p-2">{{ $task->progress }}%</span>
+                                    <div class="progress ms-2" style="width: 100px; height: 3px">
+                                        <div class="progress-bar bg-primary" role="progressbar"
+                                            style="width: {{ $task->progress }}%; "
+                                            aria-valuenow="{{ $task->progress }}" aria-valuemin="0"
+                                            aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </td>

@@ -48,6 +48,16 @@
                                     href="{{ route(get_current_user_role() . '.project.details', [$project_code, 'gantt_chart']) }}">{{ get_phrase('Gantt Chart') }}
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if ($tab == 'invoice') active @endif"
+                                    href="{{ route(get_current_user_role() . '.project.details', [$project_code, 'invoice']) }}">{{ get_phrase('Invoice') }}
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @if ($tab == 'timesheet') active @endif"
+                                    href="{{ route(get_current_user_role() . '.project.details', [$project_code, 'timesheet']) }}">{{ get_phrase('Timesheet') }}
+                                </a>
+                            </li>
                         </ul>
                     </nav>
 

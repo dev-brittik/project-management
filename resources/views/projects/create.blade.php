@@ -55,16 +55,20 @@
                     </div>
 
                     <div class="fpb7 mb-2">
-                        <label class="form-label ol-form-label"
-                            for="progress_status">{{ get_phrase('Progress Status') }}</label>
-                        <input class="form-control ol-form-control" type="text" id="progress_status"
-                            name="progress_status" required>
-                    </div>
-
-                    <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="status">{{ get_phrase('Status') }}</label>
-                        <input class="form-control ol-form-control" type="text" id="status" name="status"
-                            required>
+                        <select class="form-control ol-form-control ol-select2" data-toggle="select2" id="status"
+                            name="status" required>
+                            <option value="">
+                                {{ get_phrase('Select') }}</option>
+                            <option value="in_progress">{{ get_phrase('In Progress') }}</option>
+                            <option value="not_started">{{ get_phrase('Not Started') }}</option>
+                            <option value="completed">{{ get_phrase('Completed') }}</option>
+                        </select>
+                    </div>
+                    <div class="fpb7 mb-3">
+                        <label class="form-label ol-form-label" for="progress">{{ get_phrase('Progress') }}</label>
+                        <input type="number" class="form-control" id="progress" name="progress"
+                            placeholder="Enter progress in %" required>
                     </div>
 
                     <div class="fpb7 mb-2">

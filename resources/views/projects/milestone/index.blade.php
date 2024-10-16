@@ -1,7 +1,3 @@
-@php
-    $project_milestones = App\Models\Milestone::where('project_id', $project->id)->paginate(10);
-@endphp
-
 <div class="ol-card">
     <div class="ol-card-body">
         <!-- Search and filter -->
@@ -28,7 +24,7 @@
                 </div>
                 <div>
                     <a href="#"
-                        onclick="rightCanvas('{{ route(get_current_user_role() . '.milestone.create', ['id' => request()->route()->parameter('id')]) }}', 'Create milestone')"
+                        onclick="rightCanvas('{{ route(get_current_user_role() . '.milestone.create', ['code' => request()->route()->parameter('code')]) }}', 'Create milestone')"
                         class="btn ol-btn-outline-secondary d-flex align-items-center cg-10px">
                         <span class="fi-rr-plus"></span>
                         <span>{{ get_phrase('Add') }}</span>
@@ -117,9 +113,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($project_milestones as $key => $milestone)
+                    @foreach ($milestones as $key => $milestone)
                         <tr data-id="{{ $milestone->id }}" class="context-menu">
-                            <td>
+                            <td style="padding: 18px;">
                                 <input type="checkbox" class="checkbox-item">
                             </td>
                             <th scope="row">
@@ -140,9 +136,13 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="dAdmin_profile d-flex align-items-center min-w-200px">
-                                    <div class="dAdmin_profile_name">
-                                        <h4 class="title fs-14px">{{ $milestone->progress }}</h4>
+                                <div class="dAdmin_profile d-block align-items-center min-w-200px">
+                                    <span class="p-2">{{ get_task_progress($milestone->id) }}%</span>
+                                    <div class="progress ms-2" style="width: 100px; height: 3px">
+                                        <div class="progress-bar bg-primary" role="progressbar"
+                                            style="width: {{ get_task_progress($milestone->id) }}%; "
+                                            aria-valuenow="{{ get_task_progress($milestone->id) }}" aria-valuemin="0"
+                                            aria-valuemax="100"></div>
                                     </div>
                                 </div>
                             </td>
@@ -150,10 +150,8 @@
                                 onclick="rightCanvas('{{ route(get_current_user_role() . '.milestone.tasks', ['id' => $milestone->id]) }}', 'Milestone')">
                                 <div class="dAdmin_profile d-flex align-items-center min-w-200px">
                                     <div class="dAdmin_profile_name">
-                                        @php
-                                            $tasks = $milestone->tasks ? json_decode($milestone->tasks) : [];
-                                        @endphp
-                                        <h4 class="title fs-14px">{{ count($tasks) }} {{ get_phrase('Tasks') }}</h4>
+                                        <h4 class="title fs-14px tasks-box">{{ count($milestone->tasks) }}
+                                            {{ get_phrase('Tasks') }}</h4>
                                     </div>
                                 </div>
                             </td>
@@ -172,7 +170,7 @@
                                         <li>
                                             <a class="dropdown-item"
                                                 onclick="confirmModal('{{ route(get_current_user_role() . '.milestone.delete', $milestone->id) }}')"
-                                                href="javascript:void(0)">{{ 'Delete' }}</a>
+                                                href="javascript:void(0)">{{ get_phrase('Delete') }}</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -181,7 +179,7 @@
                     @endforeach
                 </tbody>
             </table>
-            <button id="delete-selected" class="btn btn-danger d-none">Delete</button>
+            <button id="delete-selected" class="btn btn-danger d-none">{{ get_phrase('Delete') }}</button>
 
         </div>
     </div>

@@ -134,7 +134,7 @@
                             <tbody>
                                 @foreach ($permissions as $key => $permission)
                                     <tr data-id="{{ $permission->id }}" class="context-menu">
-                                        <td>
+                                        <td style="padding: 18px;">
                                             <input type="checkbox" class="checkbox-item">
                                         </td>
                                         <th scope="row">

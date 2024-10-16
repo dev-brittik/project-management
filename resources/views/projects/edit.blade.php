@@ -64,15 +64,22 @@
                             value="{{ $project->budget }}" required>
                     </div>
                     <div class="fpb7 mb-2">
-                        <label class="form-label ol-form-label"
-                            for="progress_status">{{ get_phrase('Progress Status') }}</label>
-                        <input class="form-control ol-form-control" type="text" id="progress_status"
-                            name="progress_status" value="{{ $project->progress_status }}" required>
-                    </div>
-                    <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="status">{{ get_phrase('Status') }}</label>
-                        <input class="form-control ol-form-control" type="text" id="status" name="status"
-                            value="{{ $project->status }}" required>
+                        <select class="form-control ol-form-control ol-select2" data-toggle="select2" name="status"
+                            id="status">
+                            <option value="not_started" {{ $project->status == 'not_started' ? 'selected' : '' }}>
+                                {{ get_phrase('Not Started') }}</option>
+                            <option value="in_progress" {{ $project->status == 'in_progress' ? 'selected' : '' }}>
+                                {{ get_phrase('In Progress') }}</option>
+                            <option value="completed" {{ $project->status == 'completed' ? 'selected' : '' }}>
+                                {{ get_phrase('Completed') }}</option>
+                        </select>
+                    </div>
+                    <div class="fpb7 mb-3">
+                        <label class="form-label ol-form-label" for="progress">{{ get_phrase('Progress') }}</label>
+                        <input type="number" class="form-control" id="progress" name="progress"
+                            placeholder="Enter progress in %" value="{{ old('progress', $project->progress) }}"
+                            required>
                     </div>
                     <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="note">{{ get_phrase('Note') }}</label>

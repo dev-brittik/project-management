@@ -5,16 +5,10 @@
             <div class="row">
                 <div class="col-12">
                     <input type="hidden" name="project_id" value="{{ $task->project_id }}" />
-                    <input type="hidden" name="milestone_id" value="{{ $task->milestone_id }}" />
                     <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="title">{{ get_phrase('Title') }}</label>
                         <input class="form-control ol-form-control" type="text" id="title" name="title"
                             value="{{ $task->title }}">
-                    </div>
-                    <div class="fpb7 mb-2">
-                        <label class="form-label ol-form-label" for="milestone">{{ get_phrase('Milestone') }}</label>
-                        <input class="form-control ol-form-control" type="text" id="milestone" name="milestone"
-                            value="{{ $task->milestone }}">
                     </div>
                     <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="status">{{ get_phrase('Status') }}</label>
@@ -28,27 +22,29 @@
                                 {{ get_phrase('Completed') }}</option>
                         </select>
                     </div>
-                    <div class="fpb7 mb-2">
+                    <div class="fpb7 mb-3">
                         <label class="form-label ol-form-label" for="progress">{{ get_phrase('Progress') }}</label>
-                        <select class="form-control ol-form-control ol-select2" data-toggle="select2" name="progress"
-                            id="progress">
-                            <option>{{ get_phrase('Select a type') }}</option>
-                            <option value="0" {{ $task->progress == '0' ? 'selected' : '' }}>0%</option>
-                            <option value="25" {{ $task->progress == '25' ? 'selected' : '' }}>25%</option>
-                            <option value="50" {{ $task->progress == '50' ? 'selected' : '' }}>50%</option>
-                            <option value="75" {{ $task->progress == '75' ? 'selected' : '' }}>75%</option>
-                            <option value="100" {{ $task->progress == '100' ? 'selected' : '' }}>100%</option>
-                        </select>
+                        <input type="number" class="form-control" id="progress" name="progress"
+                            placeholder="Enter progress in %" value="{{ old('progress', $task->progress) }}" required>
                     </div>
-                    <div class="fpb7 mb-2">
-                        <label class="form-label ol-form-label" for="client">{{ get_phrase('Client') }}</label>
-                        <input class="form-control ol-form-control" type="text" id="client" name="client"
-                            value="{{ $task->client }}">
-                    </div>
+
                     <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="team">{{ get_phrase('Team') }}</label>
-                        <input class="form-control ol-form-control" type="number" id="team" name="team"
-                            value="{{ $task->team }}">
+                        <div class="d-flex flex-column">
+                            @php
+                                $assigned_staffs = json_decode($task->team, true) ?? [];
+                            @endphp
+                            @foreach ($staffs as $staff)
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="team_{{ $staff->id }}"
+                                        name="team[]" value="{{ $staff->id }}"
+                                        {{ in_array($staff->id, $assigned_staffs) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="staffs_{{ $staff->id }}">
+                                        {{ $staff->name }}
+                                    </label>
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="fpb7 mb-2">
                         <label class="form-label ol-form-label" for="start_date">{{ get_phrase('Start Date') }}</label>

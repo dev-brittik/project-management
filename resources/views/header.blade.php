@@ -11,7 +11,7 @@
             <h1 class="page-title fs-18px d-flex align-items-center gap-3">
                 {{ get_phrase('Project Management System') }}
             </h1>
-            <span class="text-12px d-none d-md-inline-block">{{ $role->title }} {{ get_phrase('Panel') }}</span>
+            <span class="text-12px d-none d-md-inline-block"></span>
         </div>
         <a href="#" target="_blank" class="btn btn-sm pt-0 d-none d-md-inline-block text-14px ">
             <span>{{ get_phrase('View site') }}</span>
@@ -151,8 +151,7 @@
                 </div>
                 <ul class="mb-12px pb-12px ol-border-bottom-2">
                     <li class="dropdown-list-1"><a class="dropdown-item-1"
-                            href="#manage_profile">{{ get_phrase('My
-                                                        Profile') }}</a>
+                            href="#manage_profile">{{ get_phrase('My Profile') }}</a>
                     </li>
                     <li class="dropdown-list-1"><a class="dropdown-item-1"
                             href="#system_settings">{{ get_phrase('Settings') }}</a>

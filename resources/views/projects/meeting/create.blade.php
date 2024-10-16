@@ -10,14 +10,9 @@
                         <input class="form-control ol-form-control" type="text" id="title" name="title">
                     </div>
                     <div class="fpb7 mb-2">
-                        <label class="form-label ol-form-label" for="time">{{ get_phrase('Time') }}</label>
-                        <input type="datetime-local" class="form-control ol-form-control" id="time" name="time"
-                            required>
-                    </div>
-                    <div class="fpb7 mb-2">
-                        <label class="form-label ol-form-label" for="link">{{ get_phrase('DB') }}</label>
-                        <input type="url" class="form-control ol-form-control" id="link" name="link"
-                            required>
+                        <label class="form-label ol-form-label" for="timestamp_meeting">{{ get_phrase('Time') }}</label>
+                        <input type="datetime-local" class="form-control ol-form-control" id="timestamp_meeting"
+                            name="timestamp_meeting" required>
                     </div>
                     <div class="fpb7 mb-2">
                         <button type="submit" class="btn ol-btn-primary">{{ get_phrase('Submit') }}</button>

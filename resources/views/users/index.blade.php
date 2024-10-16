@@ -136,7 +136,7 @@
                             <tbody>
                                 @foreach ($users as $key => $user)
                                     <tr data-id="{{ $user->id }}" class="context-menu">
-                                        <td>
+                                        <td style="padding: 18px;">
                                             <input type="checkbox" class="checkbox-item">
                                         </td>
                                         <th scope="row">
@@ -165,7 +165,7 @@
                                                 <ul class="dropdown-menu">
                                                     <li>
                                                         <a class="dropdown-item"
-                                                            onclick="rightCanvas('{{ route(get_current_user_role() . '.user.edit', $user->id) }}', {{ get_phrase('Edit user') }})"
+                                                            onclick="rightCanvas('{{ route(get_current_user_role() . '.user.edit', $user->id) }}', 'Edit user')"
                                                             href="#">{{ get_phrase('Edit') }}</a>
                                                     </li>
                                                     <li>

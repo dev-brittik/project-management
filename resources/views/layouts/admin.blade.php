@@ -88,6 +88,8 @@
     <script src="{{ asset('assets/js/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.contextMenu.min.js') }}"></script>
     <script src="{{ asset('assets/js/loader.js') }}"></script>
+    <script src='{{ asset('assets/js/index.global.js') }}'></script>
+
     <div class="toast-container position-fixed top-0 end-0 p-3"></div>
 
     @include('script')
@@ -106,7 +108,7 @@
             }
 
             if (response.validationError) {
-                error('validation error')
+                error(JSON.stringify(response.validationError))
             }
 
             const selector = response.loadTable ?? 'table.table';
@@ -138,10 +140,6 @@
             }
         }
     </script>
-
-
-
-
 
     @stack('js')
 </body>

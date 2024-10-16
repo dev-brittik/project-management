@@ -18,6 +18,17 @@
                                     </div>
                                 </div>
                             </td>
+                            <td>
+                                <div class="dAdmin_profile d-block align-items-center min-w-200px">
+                                    <span class="p-2">{{ $task->progress }}%</span>
+                                    <div class="progress ms-2" style="width: 100px; height: 3px">
+                                        <div class="progress-bar bg-primary" role="progressbar"
+                                            style="width: {{ $task->progress }}%; "
+                                            aria-valuenow="{{ $task->progress }}" aria-valuemin="0" aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
