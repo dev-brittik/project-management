@@ -4,6 +4,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CheckPermissionMiddleware;
 use App\Http\Middleware\CheckRolePermissionMiddleware;
 use App\Http\Middleware\ClientMiddleware;
+use App\Http\Middleware\InjectAddonMiddleware;
 use App\Http\Middleware\RedirectIfMiddleware;
 use App\Http\Middleware\StaffMiddleware;
 use Illuminate\Foundation\Application;
@@ -24,6 +25,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'redirect'         => RedirectIfMiddleware::class,
             'check.permission' => CheckPermissionMiddleware::class,
         ]);
+
+        $middleware->append(InjectAddonMiddleware::class);
 
     })
     ->withExceptions(function (Exceptions $exceptions) {
